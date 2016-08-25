@@ -1,0 +1,36 @@
+---
+- hosts: web
+  become: yes
+
+  tasks:
+    - name: update sources
+      copy: src=files/sources.list dest=/etc/apt/sources.list
+      register: update_sources
+
+    - name: update apt cache
+      apt: update_cache=yes
+      when: update_sources|changed
+
+    - name: Install nginx
+      apt: pkg=nginx state=present
+
+    - name: Start nginx service
+      service: name=nginx state=restarted sleep=2
+
+    - name: Install haproxy
+      apt: pkg=haproxy state=present
+
+    - name: update haproxy conf
+      copy: src=files/haproxy.cfg dest=/etc/haproxy/haproxy.cfg
+
+    - name: Start haproxy service
+      service: name=haproxy state=restarted sleep=2
+
+    - name: Install keepalived
+      apt: pkg=keepalived state=present
+
+    - name: update keepalived conf
+      copy: src=files/keepalived.conf dest=/etc/keepalived/keepalived.conf
+
+    - name: Start keepalived service
+      service: name=keepalived state=restarted sleep=2
