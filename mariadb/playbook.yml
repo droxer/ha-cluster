@@ -1,0 +1,32 @@
+---
+- hosts: db
+  become: yes
+
+  tasks:
+    - name: update sources
+      copy: src=files/sources.list dest=/etc/apt/sources.list
+      register: update_sources
+
+    - name: update apt cache
+      apt: update_cache=yes
+
+    - name: Install software-properties-common
+      apt: pkg=software-properties-common state=present
+
+    - name: add mariadb repo key
+      apt_key: keyserver=keyserver.ubuntu.com id=0xcbcb082a1bb943db
+
+    - name: update sources
+      copy: src=files/mariadb.list dest=/etc/apt/sources.list.d/mariadb.list
+
+    - name: update apt cache
+      apt: update_cache=yes
+
+    - name: Install mariadb-server
+      apt: pkg=mariadb-server state=present
+
+    - name: keep mariadb-server stopped
+      service: name=mysql state=stopped sleep=2
+
+    - name: update galera settings
+      template: src=templates/galera.cnf dest=/etc/mysql/config.d/galera.cnf

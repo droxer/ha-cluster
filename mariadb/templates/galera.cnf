@@ -1,0 +1,13 @@
+[mysqld]
+binlog_format=ROW
+default-storage-engine=innodb
+innodb_autoinc_lock_mode=2
+query_cache_size=0
+query_cache_type=0
+bind-address={{ansible_fqdn}}
+
+#galera settings
+wsrep_on=ON
+wsrep_provider=/usr/lib/galera/libgalera_smm.so
+wsrep_cluster_address="gcomm://192.168.50.11,192.168.50.12,192.168.50.13"
+wsrep_sst_method=rsync

@@ -5,11 +5,9 @@
   tasks:
     - name: update sources
       copy: src=files/sources.list dest=/etc/apt/sources.list
-      register: update_sources
 
     - name: update apt cache
       apt: update_cache=yes
-      when: update_sources|changed
 
     - name: Install nginx
       apt: pkg=nginx state=present

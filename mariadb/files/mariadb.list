@@ -1,0 +1,4 @@
+# MariaDB 10.1 repository list - created 2016-08-26 01:05 UTC
+# http://downloads.mariadb.org/mariadb/repositories/
+deb [arch=amd64,i386] http://mirrors.tuna.tsinghua.edu.cn/mariadb/repo/10.1/debian jessie main
+deb-src http://mirrors.tuna.tsinghua.edu.cn/mariadb/repo/10.1/debian jessie main
