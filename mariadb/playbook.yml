@@ -29,4 +29,16 @@
       service: name=mysql state=stopped sleep=2
 
     - name: update galera settings
-      template: src=templates/galera.cnf dest=/etc/mysql/config.d/galera.cnf
+      template: src=templates/galera.cnf dest=/etc/mysql/conf.d/galera.cnf
+
+    - name: bootstrap cluster
+      command: galera_new_cluster
+      when: ansible_fqdn == 'srv01'
+
+    - name: restart mysql
+      service: name=mysql state=restarted sleep=2
+      when: ansible_fqdn == 'srv02'
+
+    - name: restart mysql
+      service: name=mysql state=restarted sleep=2
+      when: ansible_fqdn == 'srv03'
